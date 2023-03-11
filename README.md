@@ -1,92 +1,47 @@
-# System Programing team 10
+# 스피커 및 센서를 활용한 ‘음악아 친해지자' 기기
+
+## 프로젝트 개요
+- 독거 노인의 증가로 노인 우울증 비중이 크게 증가
+- 해당 기기에 참여하여 노인의 성취감을 높여 우울증 개선 목표
 
 
+## 응용 시스템 제작
+![응용시스템](/system.jpg)
+- 다음과 같이 입력, 메인 , 출력 파이를 구성
 
-## Getting started
+## 기술 분석
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+### PWM을 이용한 소리 출력
+- PWM를 이용해 주파수 및 음향 크기 조절- 스피커 구현 스피커를 통해 입력 받은 신호에 따라 알맞은 소리를 출력하도록 하거나 미리 구성되어 있는 음악을 출력
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+### IC2 통신을 이용하여 LDC 구현
+-I2C 통신을 통한 LCD 구현 LCD를 통해 게임 진행 결과, 메뉴 정보, 리듬 게임의 박자에 맞는 블록 등을 사용자들에게 시각적으로 표현
 
-## Add your files
+### 게임 진행
+- 버튼을 통해 어떠한 메뉴를 진행할지 선택하고 메뉴가 선택되었다면 그에 맞는 디바이스들을 활성화하여 작동하여 실행.  기능 실행 중간에 나가고  싶다면 홈 버튼을 통해 다시 메뉴로 
+돌아감. 각각의 메뉴가 끝나고 점수  출력이 필요하다면 LCD를 통해 출력
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
 
-```
-cd existing_repo
-git remote add origin https://git.ajou.ac.kr/YUNDONGWON/system-programing-team-10.git
-git branch -M main
-git push -uf origin main
-```
+### 소켓 통신
+- 입력 Pi -> 메인Pi  메인 Pi -> 출력 Pi 서로 다른 세가지 라즈베리파이간의 정보 전달을 하기 위한 창구 역할로 메뉴 번호, 주파수, 게임의 점수 등을 수송신한다. 
 
-## Integrate with your tools
+### 스레딩
+- LCD와 스피커 수신과 송신 스레딩을 통해 프로세스를 여러 실행 단위로 나누어 각각의 기능들에 대한 관리의 중복성을 최소화 시키고 기능을 지닌 함수들의 병행  실행
 
-- [ ] [Set up project integrations](https://git.ajou.ac.kr/YUNDONGWON/system-programing-team-10/-/settings/integrations)
 
-## Collaborate with your team
+### 기능
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Automatically merge when pipeline succeeds](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+0. 메뉴 선택
+필요장치: 버튼 4개 LCD 1개
+	(각 버튼을 누르면 해당 서비스에 해당하는 메뉴로 넘어간다.)
+	LCD를 통해 메뉴를 출력한다.
+1.  1번 버튼을 누르면, 피아노 메뉴로 넘어간다.
+2.  2번 버튼을 누르면, 녹음 실행 메뉴로 넘어간다.
+3.  3번 버튼을 누르면, 절대 음감 테스트 메뉴로 넘어간다.
+4.  4번 버튼을 누르면, 저장된 첫 번째 음악 출력 메뉴로 넘어간다.
+5.  5번 버튼을 누르면,  저장된 두 번째 음악 출력 메뉴로 넘어간다.
 
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+### 역할 분담
+ME - 전체적인 알고리즘 구현, 입력PI 코드 작성, 입력 PI와 입력 PI에 사용되는 IO 장치 연결
+A - 메인PI-출력 PI 코드 작성, 출력 PI에 사용되는 IO 장치 연결
+B - 최종 코드 점검, 메인PI-출력PI 코드 작성, 출력 PI에 사용되는 IO 장치 연결
